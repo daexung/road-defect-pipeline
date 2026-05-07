@@ -1,0 +1,49 @@
+{
+  "model_path": "/Users/sunghyochang/Desktop/Study/projects/pothall-pjt/sample_maker/best.pt",
+  "model": "yolov8s-cls.pt",
+  "method": "ICP + MCP (Mondrian)",
+  "coverage_target": 0.9,
+  "cp_results": {
+    "coverage": 0.8992518703241895,
+    "avg_set_size": 0.9354945968412303,
+    "efficiency": 0.9354945968412303,
+    "quantiles": {
+      "0": 0.39725714921951294,
+      "1": 0.4707867503166199
+    }
+  },
+  "training_params": {
+    "freeze_option": "last_4_blocks",
+    "optimizer": "SGD",
+    "lr0": 0.003887089147490984,
+    "batch": 64
+  },
+  "timestamp": "2025-12-10 03:21:13",
+  "certain_predictions": {
+    "count": 11254,
+    "ratio": 0.9354945968412303,
+    "precision": 0.8380119650253106,
+    "recall_of_certain": 0.9559055118110236,
+    "recall_of_all": 0.9559055118110236,
+    "f1_score": 0.8930848455125061,
+    "accuracy": 0.9612582192998045,
+    "confusion_matrix": [
+      [
+        8997,
+        352
+      ],
+      [
+        84,
+        1821
+      ]
+    ]
+  },
+  "uncertain_predictions": {
+    "count": 776,
+    "ratio": 0.06450540315876974,
+    "true_label_dist": {
+      "0": 676,
+      "1": 100
+    }
+  }
+}

@@ -1,0 +1,659 @@
+/* ── 관리자 분석 리포트 버튼 (우측 하단 고정) ── */
+.admin-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 16px;
+  z-index: 1000;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: -0.2px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.admin-btn:hover { background: #16213e; }
+
+/* ── 비밀번호 입력 ── */
+.admin-password-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  transition: border 0.15s;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+.admin-password-input:focus { border-color: #2E7D32; }
+.admin-password-input.error { border-color: var(--red); }
+
+.admin-password-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 6px;
+  text-align: left;
+  width: 100%;
+}
+
+.modal-btn.outline {
+  background: transparent;
+  color: var(--gray-600);
+  border: 1.5px solid var(--gray-200);
+}
+
+.modal-btn.outline:hover { background: var(--gray-100); }
+
+/* ── 관리자 대시보드 오버레이 ── */
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+
+.admin-panel {
+  background: #f8f7f5;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1100px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* ── 헤더 ── */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  background: #1a1a2e;
+  color: white;
+}
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-badge {
+  background: #CF4500;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 5px;
+  letter-spacing: 0.3px;
+}
+
+.admin-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-date-input {
+  padding: 7px 12px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  cursor: pointer;
+}
+
+.admin-date-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+.admin-close-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.admin-close-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* ── 로딩 / 에러 ── */
+.admin-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 28px;
+  font-size: 14px;
+  color: #555;
+}
+
+.admin-status.error { color: var(--red); }
+
+.admin-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--gray-200);
+  border-top-color: #2E7D32;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 본문 ── */
+.admin-body {
+  padding: 24px 28px 32px;
+}
+
+.admin-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-section-title:first-child { margin-top: 0; }
+
+.admin-section-count {
+  background: #1a1a2e;
+  color: white;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── 집계 카드 (3개) ── */
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-top: 3px solid var(--gray-200);
+}
+
+.admin-card.accent  { border-top-color: #CF4500; }
+.admin-card.warning { border-top-color: #FB8C00; }
+.admin-card.success { border-top-color: #2E7D32; }
+
+.admin-card-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: -0.1px;
+}
+
+.admin-card-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a1a2e;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.admin-card-unit {
+  font-size: 13px;
+  font-weight: 500;
+  color: #aaa;
+  margin-left: 3px;
+  letter-spacing: 0;
+}
+
+.admin-card-badge {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.admin-card-badge.up   { background: #fff0ed; color: #CF4500; }
+.admin-card-badge.down { background: #e8f5e9; color: #2E7D32; }
+
+/* ── 차트 카드 그리드 — align-items: start로 여백 제거 ── */
+.admin-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: stretch; /* start → stretch로 변경 */
+}
+
+.admin-chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-chart-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 14px;
+  letter-spacing: -0.2px;
+}
+
+/* ── 바 차트 ── */
+.admin-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-bar-label {
+  font-size: 11px;
+  color: #666;
+  width: 140px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-bar-track {
+  flex: 1;
+  height: 10px;
+  background: #f0eeec;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.admin-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.4s ease;
+  min-width: 3px;
+}
+
+.admin-bar-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+  width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── HNM ── */
+.admin-hnm-grid {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 100%;
+}
+
+.admin-hnm-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  text-align: center;
+  gap: 6px;
+}
+
+.admin-hnm-divider {
+  width: 1px;
+  background: var(--gray-200);
+  margin: 4px 0;
+}
+
+.admin-hnm-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+}
+
+.admin-hnm-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a2e;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.admin-hnm-value span {
+  font-size: 13px;
+  font-weight: 500;
+  color: #aaa;
+  margin-left: 2px;
+}
+
+.admin-hnm-value.blue   { color: #2E75B6; }
+.admin-hnm-value.orange { color: #CF4500; }
+
+.admin-hnm-desc {
+  font-size: 10px;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+/* ── 테이블 ── */
+.admin-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 12px;
+}
+
+.admin-table th {
+  background: #1a1a2e;
+  color: rgba(255,255,255,0.75);
+  font-weight: 600;
+  padding: 11px 14px;
+  text-align: left;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+}
+
+.admin-table th:first-child { border-radius: 12px 0 0 0; }
+.admin-table th:last-child  { border-radius: 0 12px 0 0; }
+
+.admin-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0eeec;
+  color: #333;
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:last-child td { border-bottom: none; }
+.admin-table tbody tr:hover td { background: #faf9f7; }
+
+.admin-td-mono {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #666;
+}
+
+/* ── 태그 ── */
+.admin-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-tag.red    { background: #fff0ed; color: #CF4500; }
+.admin-tag.orange { background: #fff4e6; color: #FB8C00; }
+.admin-tag.green  { background: #e8f5e9; color: #2E7D32; }
+.admin-tag.gray   { background: #f5f5f5; color: #757575; }
+
+/* ── 반응형 (좁은 화면) ── */
+@media (max-width: 768px) {
+  .admin-cards  { grid-template-columns: repeat(2, 1fr); }
+  .admin-charts { grid-template-columns: 1fr; }
+  .admin-panel  { border-radius: 12px; }
+  .admin-header { padding: 16px 18px; flex-wrap: wrap; gap: 10px; }
+  .admin-body   { padding: 16px 18px 24px; }
+}
+
+/* ── CP 클래스 분포 — N 별도 표기 ── */
+.admin-cp-normal-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #eef4fb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+
+.admin-cp-normal-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2E75B6;
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.admin-cp-normal-bar {
+  flex: 1;
+  height: 10px;
+  background: #2E75B6;
+  border-radius: 4px;
+  display: block;
+  overflow: hidden;
+}
+
+.admin-cp-normal-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2E75B6;
+  width: 100px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.admin-cp-divider-label {
+  font-size: 10px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+/* ── 차트 타이틀 행 (제목 + 버튼) ── */
+.admin-chart-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.admin-chart-title-row .admin-chart-title {
+  margin-bottom: 0;
+}
+
+/* ── 속도 차트 보조 텍스트 ── */
+.admin-chart-note {
+  font-size: 10px;
+  color: #aaa;
+  font-weight: 400;
+  margin-left: 8px;
+  letter-spacing: 0;
+}
+
+.admin-chart-caption {
+  font-size: 10px;
+  color: #bbb;
+  margin-top: 10px;
+  line-height: 1.4;
+  padding-left: 2px;
+}
+
+/* ── CSV 다운로드 버튼 ── */
+.admin-download-btn {
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-download-btn:hover { background: #16213e; }
+.admin-download-btn.loading { background: #666; cursor: not-allowed; }
+
+/* ── 더보기 버튼 ── */
+.admin-more-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  background: #f8f7f5;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 0 0 12px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #555;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.admin-more-btn:hover { background: #f0eeec; }
+
+/* ── 동별 순위 ── */
+.admin-dong-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  background: #f0eeec;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.admin-dong-tab {
+  flex: 1;
+  padding: 6px 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.admin-dong-tab.active {
+  background: white;
+  color: #1a1a2e;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.admin-dong-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-dong-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-dong-rank {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f0eeec;
+  color: #888;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.admin-dong-rank.top {
+  background: #1a1a2e;
+  color: white;
+}
+
+.admin-dong-name {
+  width: 80px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.admin-dong-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.admin-dong-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 13px;
+  padding: 24px 0;
+}
+
+.admin-card-hint {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.admin-card-hint {
+  font-size: 10px;
+  color: #bbb;
+  margin-top: 4px;
+  font-weight: 500;
+}

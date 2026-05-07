@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+
+# 로그/데이터
+captured_frames/
+capture_logs/
+inference_proto_results/
+data/
+logs/
+*.tar
+
+# OS
+.DS_Store
+Thumbs.db
