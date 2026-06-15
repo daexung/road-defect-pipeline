@@ -28,7 +28,7 @@ from dotenv import load_dotenv
 # 전역 설정
 # ─────────────────────────────────────────────
 
-ROUTE_DIR = r"C:\Users\daeseong\Desktop\pothall-pjt\log_pipeline\get_bus_route\cleaned_routes"
+ROUTE_DIR = Path(__file__).parent / "get_bus_route" / "cleaned_routes"
 
 load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 
