@@ -85,7 +85,7 @@ road-defect-pipeline/
 | **dashcam-simulator** | 전담 — YOLOv8+CP 실시간 추론, 13개 노선 페이크 로그 생성기, Naver 지도 크롤링 기반 GPS 데이터 수집 |
 | **airflow** | 전담 — 일일 리포트 DAG, 12분 클러스터링 DAG 설계 및 구현 |
 | **kafka_consumer** | 팀원 담당 |
-| **frontend** | 팀원 담당 |
+| **frontend** | 전담 |
 | **backend (FastAPI)** | 팀원 담당 (별도 레포) |
 
 ---
